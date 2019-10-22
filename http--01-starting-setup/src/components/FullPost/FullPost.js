@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './FullPost.css';
-import Axios from 'axios';
+import axios from 'axios';
 
 class FullPost extends Component {
     state = {
@@ -10,12 +10,17 @@ class FullPost extends Component {
     componentDidUpdate() {
         //making this conditions due to having a continous loop for sending request, check network!
         if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
-            Axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.id)
+            axios.get('/posts/' + this.props.id)
             .then(response => {
                 this.setState({loadedPost: response.data})
             })
-
         }
+    }
+    postDeleteHandler=() => {
+        axios.delete('/posts/' + this.props.id)
+            .then(response => {
+                console.log(response);
+            });
     }
 
     render () {
@@ -30,7 +35,7 @@ class FullPost extends Component {
                     <h1>{this.state.loadedPost.title}</h1>
                     <p>{this.state.loadedPost.body}</p>
                     <div className="Edit">
-                        <button className="Delete">Delete</button>
+                        <button onClick={this.postDeleteHandler}className="Delete">Delete</button>
                     </div>
                 </div>
         );

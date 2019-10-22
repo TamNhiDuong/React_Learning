@@ -4,15 +4,19 @@ import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
 import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
-import axios from 'axios';
+//import axios from 'axios';
+//Use own axios.js 
+//To use instance URL to overide the global URL
+import axios from '../../axios';
 
 class Blog extends Component {
     state = {
         posts: [],
-        selectedPostId: null  
+        selectedPostId: null,
+        error: false
     }
     componentDidMount () {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('/posts')
         .then(response => {
             //only fetch the first 4 posts
             const posts = response.data.slice(0, 4);
@@ -21,12 +25,15 @@ class Blog extends Component {
                     ...post,
                     author: 'Mon'
                 }
-
-            })
+            });
             //this.setState({posts: response.data})
             this.setState({posts: updatedPosts})
             //console.log(response);
-        }); 
+        }) 
+        .catch( error => {
+            console.log(error);
+            this.setState({error: true})
+        });
     }
 
     postSelectedHandler = (id) => {
@@ -35,13 +42,17 @@ class Blog extends Component {
     }
 
     render () {
-        const posts = this.state.posts.map(post => {
-            return <Post 
-            key={post.id} 
-            title={post.title} 
-            author={post.author}
-            clicked={() => this.postSelectedHandler(post.id)}/>
-        }); 
+        let posts = <p>Something went wrong</p>
+        if(!this.state.error) {
+            posts = this.state.posts.map(post => {
+                return <Post 
+                key={post.id} 
+                title={post.title} 
+                author={post.author}
+                clicked={() => this.postSelectedHandler(post.id)}/>
+            }); 
+        }
+    
         return (
             <div>
                 <section className="Posts">
