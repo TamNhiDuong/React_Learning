@@ -6,7 +6,8 @@ import classes from './Blog.module.css';
 import axios from '../../axios';
 import Posts from '../Blog/Posts/Posts'; 
 import NewPost from './NewPost/NewPost'; 
-import {Route, NavLink} from 'react-router-dom'; 
+import {Route, NavLink, Switch} from 'react-router-dom'; 
+import FullPost from './FullPost/FullPost'; 
 
 class Blog extends Component {
    
@@ -16,7 +17,7 @@ class Blog extends Component {
             <div>
                 <header className='Blog'>
                     <ul>
-                        <li><NavLink to='/'
+                        <li><NavLink to='/posts/'
                                   exact
                                   activeClassName="my-active"
                                   activeStyle={{
@@ -31,8 +32,12 @@ class Blog extends Component {
                         }}>New post</NavLink></li>
                     </ul>
                 </header>
-                <Route path='/' exact component={Posts}/>
+                
+                <Switch>
                 <Route path='/newpost' component={NewPost}/>
+                <Route path='/posts' component={Posts}/>
+                
+                </Switch>
                
             </div>
         );
