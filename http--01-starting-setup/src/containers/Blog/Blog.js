@@ -6,7 +6,7 @@ import classes from './Blog.module.css';
 import axios from '../../axios';
 import Posts from '../Blog/Posts/Posts'; 
 import NewPost from './NewPost/NewPost'; 
-import {Route, NavLink, Switch} from 'react-router-dom'; 
+import {Route, NavLink, Switch, Redirect} from 'react-router-dom'; 
 import FullPost from './FullPost/FullPost'; 
 
 class Blog extends Component {
@@ -36,7 +36,7 @@ class Blog extends Component {
                 <Switch>
                 <Route path='/newpost' component={NewPost}/>
                 <Route path='/posts' component={Posts}/>
-                
+              
                 </Switch>
                
             </div>
