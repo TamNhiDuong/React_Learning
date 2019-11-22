@@ -10,6 +10,9 @@ import {Route, NavLink, Switch, Redirect} from 'react-router-dom';
 import FullPost from './FullPost/FullPost'; 
 
 class Blog extends Component {
+    state = {
+        authenticated: true, 
+    }
    
     render () {
     
@@ -34,8 +37,10 @@ class Blog extends Component {
                 </header>
                 
                 <Switch>
-                <Route path='/newpost' component={NewPost}/>
+                    {this.state.authenticated ? <Route path='/newpost' component={NewPost}/>: null}
                 <Route path='/posts' component={Posts}/>
+                <Route render={()=> (<h1>Page not found</h1>)}/>
+                {/*<Redirect from='/' to='/posts'/>*/}
               
                 </Switch>
                
